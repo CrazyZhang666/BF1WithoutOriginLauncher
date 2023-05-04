@@ -4,4 +4,4 @@
 
 ## 预览
 
-![image](https://user-images.githubusercontent.com/28080853/236111947-7e6507b2-74ec-4e7a-aca9-a90fda927165.png)
+![image](https://user-images.githubusercontent.com/28080853/236332764-126d9b1b-397c-4c41-a6ab-64ede52f1357.png)
