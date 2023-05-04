@@ -5,129 +5,187 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Window_Main"
-    Title="战地1免Origin版启动器"
-    Width="700"
-    Height="450"
+    Title="Battlefield™ 1 免Origin启动器"
+    Width="850"
+    Height="550"
     Closing="Window_Main_Closing"
+    FontFamily="{StaticResource FontFamily_Default}"
+    Foreground="White"
     Loaded="Window_Main_Loaded"
     ResizeMode="CanMinimize"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
+    <Window.Resources>
+        <RoutedUICommand x:Key="ChangeBackgroundImage" />
+    </Window.Resources>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{StaticResource ChangeBackgroundImage}" Gesture="F5" />
+    </Window.InputBindings>
+
+    <Window.CommandBindings>
+        <CommandBinding CanExecute="CommandBinding_ChangeBackgroundImage" Command="{StaticResource ChangeBackgroundImage}" />
+    </Window.CommandBindings>
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <!--  ////////////////  -->
-        <StackPanel>
-            <TextBlock
-                Margin="5"
-                FontWeight="Bold"
-                Text="战地1目录" />
-            <DockPanel>
-                <Button
-                    x:Name="Button_SelectBF1GameDir"
-                    Margin="0,5,5,5"
-                    Padding="5,0,5,0"
-                    Click="Button_SelectBF1GameDir_Click"
-                    Content="选择"
-                    DockPanel.Dock="Right" />
+        <!--  背景图片  -->
+        <Image
+            x:Name="Image_Background"
+            Source="/Assets/Images/Background/MP_Harbor_BGLoop-70b9c5f4.jpg"
+            Stretch="UniformToFill" />
+        <!--  主功能页面  -->
+        <Grid Margin="5,5,5,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <!--  ////////////////  -->
+            <StackPanel>
+                <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="游戏目录" />
+                <DockPanel>
+                    <Button
+                        x:Name="Button_SelectBF1GameDir"
+                        Margin="0,5,5,5"
+                        Click="Button_SelectBF1GameDir_Click"
+                        DockPanel.Dock="Right">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Height="20"
+                                Margin="0,0,5,0"
+                                Source="/Assets/Images/icons8-folder-48.png" />
+                            <TextBlock VerticalAlignment="Center" Text="选择" />
+                        </StackPanel>
+                    </Button>
+                    <TextBox
+                        x:Name="TextBox_BF1GameDir"
+                        VerticalContentAlignment="Center"
+                        ContextMenu="{x:Null}"
+                        FontSize="14"
+                        IsReadOnly="True"
+                        Text="D:\Origin Games\Battlefield 1"
+                        TextWrapping="NoWrap"
+                        ToolTip="战地1游戏所在目录" />
+                </DockPanel>
+                <!--  ////////////////  -->
+                <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="补丁工具" />
+                <DockPanel>
+                    <Button
+                        x:Name="Button_UseWithoutOriginPath"
+                        Click="Button_UseWithoutOriginPath_Click"
+                        DockPanel.Dock="Left">
+                        <StackPanel>
+                            <Image
+                                Width="32"
+                                Margin="0,0,0,5"
+                                Source="/Assets/Images/icons8-hdd-48.png" />
+                            <TextBlock VerticalAlignment="Center" Text="使用战地1免Origin补丁" />
+                        </StackPanel>
+                    </Button>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                x:Name="Button_OpenAppDataDir"
+                                Margin="5,5,0,5"
+                                Click="Button_OpenAppDataDir_Click"
+                                Content="打开数据目录" />
+                            <Button
+                                x:Name="Button_OpenBF1GameDir"
+                                Margin="5,5,0,5"
+                                Click="Button_OpenBF1GameDir_Click"
+                                Content="打开战地1游戏目录" />
+                            <Button
+                                x:Name="Button_OpenBF1DocDir"
+                                Margin="5,5,0,5"
+                                Click="Button_OpenBF1DocDir_Click"
+                                Content="打开战地1文档目录" />
+                            <Button
+                                x:Name="Button_EditOriginEmuConfig"
+                                Margin="5,5,0,5"
+                                Click="Button_EditOriginEmuConfig_Click"
+                                Content="编辑Origin模拟器配置文件（Cookies）" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                x:Name="Button_UseBackupBF1MainApp"
+                                Margin="5,0,0,5"
+                                Click="Button_UseBackupBF1MainApp_Click"
+                                Content="恢复战地1原版文件" />
+                            <Button
+                                x:Name="Button_UseBF1RegeditFix"
+                                Margin="5,0,0,5"
+                                Click="Button_UseBF1RegeditFix_Click"
+                                Content="运行战地1繁体中文注册表修复工具" />
+                        </StackPanel>
+                    </StackPanel>
+                </DockPanel>
+            </StackPanel>
+            <!--  ////////////////  -->
+            <DockPanel Grid.Row="1">
+                <TextBlock
+                    DockPanel.Dock="Top"
+                    Style="{StaticResource TextBlockStyle_Title}"
+                    Text="启动参数" />
                 <TextBox
-                    x:Name="TextBox_BF1GameDir"
-                    Margin="5"
-                    Padding="7"
-                    Cursor="Arrow"
-                    IsReadOnly="True"
-                    Text="D:\Origin Games\Battlefield 1" />
+                    x:Name="TextBox_BF1RunArgs"
+                    ContextMenu="{x:Null}"
+                    FontSize="14"
+                    HorizontalScrollBarVisibility="Disabled"
+                    Text="-PerfOverlay.DrawFps 1"
+                    ToolTip="战地1启动参数，可不填"
+                    VerticalScrollBarVisibility="Auto" />
             </DockPanel>
             <!--  ////////////////  -->
-            <TextBlock
-                Margin="5"
-                FontWeight="Bold"
-                Text="维护工具" />
-            <StackPanel Orientation="Horizontal">
-                <Button
-                    x:Name="Button_OpenBF1GameDir"
-                    Margin="5,5,0,5"
-                    Padding="5"
-                    Click="Button_OpenBF1GameDir_Click"
-                    Content="打开战地1游戏目录" />
-                <Button
-                    x:Name="Button_EditOriginEmuConfig"
-                    Margin="5,5,0,5"
-                    Padding="5"
-                    Click="Button_EditOriginEmuConfig_Click"
-                    Content="编辑Origin模拟器配置文件（Cookies）" />
+            <StackPanel Grid.Row="2">
+                <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="开始游戏" />
+                <UniformGrid Columns="2">
+                    <Button
+                        x:Name="Button_RunOriginEmu"
+                        Margin="5,5,2.5,5"
+                        Click="Button_RunOriginEmu_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Height="24"
+                                Margin="0,0,5,0"
+                                Source="/Assets/Images/origin_icon.png" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                Text="启动Origin模拟器" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        x:Name="Button_RunBF1Game"
+                        Margin="2.5,5,5,5"
+                        Click="Button_RunBF1Game_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Height="20"
+                                Margin="0,0,5,0"
+                                Source="/Assets/Images/logo_pc-795c9952.png" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                Text="启动战地1游戏" />
+                        </StackPanel>
+                    </Button>
+                </UniformGrid>
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="5" Text="感谢 Misaka_Mikoto_01 大佬的研究成果" />
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <TextBlock Margin="5" ToolTip="https://go.microsoft.com/fwlink/p/?LinkId=2124703">
+                            <Hyperlink NavigateUri="https://go.microsoft.com/fwlink/p/?LinkId=2124703" RequestNavigate="Hyperlink_RequestNavigate">WebView2运行库</Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="5" ToolTip="https://github.com/CrazyZhang666/BF1WithoutOriginLauncher">
+                            <Hyperlink NavigateUri="https://github.com/CrazyZhang666/BF1WithoutOriginLauncher" RequestNavigate="Hyperlink_RequestNavigate">GitHub</Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                </DockPanel>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Button
-                    x:Name="Button_UseWithoutOriginPath"
-                    Margin="5,5,0,5"
-                    Padding="5"
-                    Click="Button_UseWithoutOriginPath_Click"
-                    Content="使用战地1免Origin补丁" />
-                <Button
-                    x:Name="Button_UseBackupBF1MainApp"
-                    Margin="5,5,0,5"
-                    Padding="5"
-                    Click="Button_UseBackupBF1MainApp_Click"
-                    Content="恢复战地1原版文件" />
-                <Button
-                    x:Name="Button_UseBF1RegeditFix"
-                    Margin="5,5,0,5"
-                    Padding="5"
-                    Click="Button_UseBF1RegeditFix_Click"
-                    Content="运行战地1注册表恢复工具" />
-            </StackPanel>
-        </StackPanel>
-        <!--  ////////////////  -->
-        <DockPanel Grid.Row="1">
-            <TextBlock
-                Margin="5"
-                DockPanel.Dock="Top"
-                FontWeight="Bold"
-                Text="战地1启动参数" />
-            <TextBox
-                x:Name="TextBox_BF1RunArgs"
-                Margin="5"
-                Padding="7"
-                HorizontalScrollBarVisibility="Disabled"
-                Text="-PerfOverlay.DrawFps 1"
-                TextWrapping="Wrap"
-                VerticalScrollBarVisibility="Auto" />
-        </DockPanel>
-        <!--  ////////////////  -->
-        <StackPanel Grid.Row="2">
-            <TextBlock
-                Margin="5"
-                FontWeight="Bold"
-                Text="开始游戏" />
-            <UniformGrid Columns="2">
-                <Button
-                    x:Name="Button_RunOriginEmu"
-                    Margin="5,5,2.5,5"
-                    Padding="7"
-                    Click="Button_RunOriginEmu_Click"
-                    Content="第一步 启动Origin模拟器" />
-                <Button
-                    x:Name="Button_RunBF1Game"
-                    Margin="2.5,5,5,5"
-                    Padding="7"
-                    Click="Button_RunBF1Game_Click"
-                    Content="第二步 启动战地1游戏" />
-            </UniformGrid>
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <TextBlock Margin="5" Text="感谢 Misaka_Mikoto_01 大佬的研究成果" />
-                <TextBlock Margin="5" ToolTip="https://go.microsoft.com/fwlink/p/?LinkId=2124703">
-                    <Hyperlink NavigateUri="https://go.microsoft.com/fwlink/p/?LinkId=2124703" RequestNavigate="Hyperlink_RequestNavigate">WebView2运行库</Hyperlink>
-                </TextBlock>
-                <TextBlock Margin="5" ToolTip="https://github.com/CrazyZhang666/BF1WithoutOriginLauncher">
-                    <Hyperlink NavigateUri="https://github.com/CrazyZhang666/BF1WithoutOriginLauncher" RequestNavigate="Hyperlink_RequestNavigate">GitHub</Hyperlink>
-                </TextBlock>
-            </StackPanel>
-        </StackPanel>
+        </Grid>
     </Grid>
 
 </Window>

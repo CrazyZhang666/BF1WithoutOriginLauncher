@@ -1,11 +1,13 @@
-﻿using BF1WithoutOriginLauncher.Helper;
+﻿using System;
 using System.IO;
+
+using BF1WithoutOriginLauncher.Helper;
 
 namespace BF1WithoutOriginLauncher.Utils
 {
     public static class CoreUtil
     {
-        private const string Root = ".\\AppData";
+        public const string Root = ".\\AppData";
 
         public const string Backup_bf1_exe = Root + "\\Backup\\bf1.exe";
 
@@ -23,39 +25,46 @@ namespace BF1WithoutOriginLauncher.Utils
 
         ////////////////////////////////////////////////
 
-        public static string BF1_Dir { get; set; }
+        public static string BF1_Game_Dir { get; set; }
+
+        public static string BF1_Doc_Dir { get; private set; }
 
         public static string Game_bf1_exe
         {
-            get { return Path.Combine(BF1_Dir, "bf1.exe"); }
+            get { return Path.Combine(BF1_Game_Dir, "bf1.exe"); }
         }
 
         public static string Game_bf1_without_origin_exe
         {
-            get { return Path.Combine(BF1_Dir, "bf1_without_origin.exe"); }
+            get { return Path.Combine(BF1_Game_Dir, "bf1_without_origin.exe"); }
         }
 
         public static string Game_dinput8_dll
         {
-            get { return Path.Combine(BF1_Dir, "dinput8.dll"); }
+            get { return Path.Combine(BF1_Game_Dir, "dinput8.dll"); }
         }
 
         public static string Game_dinput8_org_dll
         {
-            get { return Path.Combine(BF1_Dir, "dinput8_org.dll"); }
+            get { return Path.Combine(BF1_Game_Dir, "dinput8_org.dll"); }
         }
 
         public static string Game_originemu_dll
         {
-            get { return Path.Combine(BF1_Dir, "originemu.dll"); }
+            get { return Path.Combine(BF1_Game_Dir, "originemu.dll"); }
         }
 
         public static string Game_EA_Game_RegFix_exe
         {
-            get { return Path.Combine(BF1_Dir, "EA_Game_RegFix.exe"); }
+            get { return Path.Combine(BF1_Game_Dir, "EA_Game_RegFix.exe"); }
         }
 
         ////////////////////////////////////////////////
+
+        static CoreUtil()
+        {
+            BF1_Doc_Dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Battlefield 1");
+        }
 
         /// <summary>
         /// 判断战地1游戏目录是否存在
@@ -63,9 +72,24 @@ namespace BF1WithoutOriginLauncher.Utils
         /// <returns></returns>
         public static bool IsExistsBF1GameDir()
         {
-            if (!Directory.Exists(BF1_Dir))
+            if (!Directory.Exists(BF1_Game_Dir))
             {
-                MsgBoxHelper.Warning($"当前战地1游戏目录不存在\n{BF1_Dir}");
+                MsgBoxHelper.Warning($"当前战地1游戏目录不存在\n{BF1_Game_Dir}");
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 判断战地1文档目录是否存在
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsExistsBF1DocDir()
+        {
+            if (!Directory.Exists(BF1_Doc_Dir))
+            {
+                MsgBoxHelper.Warning($"当前战地1文档目录不存在\n{BF1_Doc_Dir}");
                 return false;
             }
 
@@ -78,7 +102,7 @@ namespace BF1WithoutOriginLauncher.Utils
         /// <returns></returns>
         public static bool IsExistsBF1OriginEmuPath()
         {
-            if (!Directory.Exists(BF1_Dir))
+            if (!Directory.Exists(BF1_Game_Dir))
                 return false;
 
             if (!File.Exists(Game_bf1_exe))

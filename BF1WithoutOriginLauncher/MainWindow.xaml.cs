@@ -1,8 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Navigation;
+using System.Windows.Media.Imaging;
 using System.ComponentModel;
+using System.Collections.Generic;
 using Microsoft.Win32;
 
 using BF1WithoutOriginLauncher.Utils;
@@ -15,6 +18,10 @@ namespace BF1WithoutOriginLauncher
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly List<BitmapImage> BackImageList = new List<BitmapImage>();
+
+        private int Index = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -27,10 +34,26 @@ namespace BF1WithoutOriginLauncher
         /// <param name="e"></param>
         private void Window_Main_Loaded(object sender, RoutedEventArgs e)
         {
+            BackImageList.Add(new BitmapImage(new Uri("/Assets/Images/Background/MP_Beachhead_BGLoop-4f04c02e.jpg", UriKind.RelativeOrAbsolute)));
+            BackImageList.Add(new BitmapImage(new Uri("/Assets/Images/Background/MP_Harbor_BGLoop-70b9c5f4.jpg", UriKind.RelativeOrAbsolute)));
+            BackImageList.Add(new BitmapImage(new Uri("/Assets/Images/Background/MP_Naval_BGLoop-dd6e9a89.jpg", UriKind.RelativeOrAbsolute)));
+            BackImageList.Add(new BitmapImage(new Uri("/Assets/Images/Background/MP_Ridge_BGLoop-22333a03.jpg", UriKind.RelativeOrAbsolute)));
+
+            Index = new Random().Next(4);
+
+            ChangeBackgroundImage();
+
+            /////////////////////////////////////////
+
+            var resStream = Application.GetResourceStream(new Uri("/Assets/Arrow.cur", UriKind.Relative));
+            Mouse.OverrideCursor = new Cursor(resStream.Stream, true);
+
+            /////////////////////////////////////////
+
             TextBox_BF1GameDir.Text = IniHelper.ReadValue("Config", "BF1GameDir");
             TextBox_BF1RunArgs.Text = IniHelper.ReadValue("Config", "BF1RunArgs");
 
-            CoreUtil.BF1_Dir = TextBox_BF1GameDir.Text.Trim();
+            CoreUtil.BF1_Game_Dir = TextBox_BF1GameDir.Text.Trim();
         }
 
         /// <summary>
@@ -56,6 +79,27 @@ namespace BF1WithoutOriginLauncher
         }
 
         /// <summary>
+        /// 命令绑定 切换背景图片
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CommandBinding_ChangeBackgroundImage(object sender, RoutedEventArgs e)
+        {
+            ChangeBackgroundImage();
+        }
+
+        /// <summary>
+        /// 切换背景图片
+        /// </summary>
+        private void ChangeBackgroundImage()
+        {
+            if (Index >= BackImageList.Count)
+                Index = 0;
+
+            Image_Background.Source = BackImageList[Index++];
+        }
+
+        /// <summary>
         /// 选择战地1游戏所在文件夹
         /// </summary>
         /// <param name="sender"></param>
@@ -75,8 +119,18 @@ namespace BF1WithoutOriginLauncher
             {
                 TextBox_BF1GameDir.Text = Path.GetDirectoryName(fileDialog.FileName);
 
-                CoreUtil.BF1_Dir = TextBox_BF1GameDir.Text.Trim();
+                CoreUtil.BF1_Game_Dir = TextBox_BF1GameDir.Text.Trim();
             }
+        }
+
+        /// <summary>
+        /// 打开数据目录
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_OpenAppDataDir_Click(object sender, RoutedEventArgs e)
+        {
+            ProcessHelper.OpenLink(CoreUtil.Root);
         }
 
         /// <summary>
@@ -89,7 +143,20 @@ namespace BF1WithoutOriginLauncher
             if (!CoreUtil.IsExistsBF1GameDir())
                 return;
 
-            ProcessHelper.OpenLink(CoreUtil.BF1_Dir);
+            ProcessHelper.OpenLink(CoreUtil.BF1_Game_Dir);
+        }
+
+        /// <summary>
+        /// 打开战地1文档目录
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_OpenBF1DocDir_Click(object sender, RoutedEventArgs e)
+        {
+            if (!CoreUtil.IsExistsBF1DocDir())
+                return;
+
+            ProcessHelper.OpenLink(CoreUtil.BF1_Doc_Dir);
         }
 
         /// <summary>
@@ -165,14 +232,14 @@ namespace BF1WithoutOriginLauncher
         }
 
         /// <summary>
-        /// 运行战地1注册表恢复工具
+        /// 运行战地1繁体中文注册表修复工具
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Button_UseBF1RegeditFix_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("你确定要运行战地1注册表恢复工具吗？",
-                "运行提示", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+            if (MessageBox.Show("你确定要运行战地1繁体中文注册表修复工具吗？这个一般在修改战地1语言为繁体中文时使用",
+                "注册表修复工具", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
             {
                 if (!CoreUtil.IsExistsBF1GameDir())
                     return;

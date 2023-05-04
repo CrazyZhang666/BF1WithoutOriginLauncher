@@ -5,6 +5,20 @@
     ShutdownMode="OnMainWindowClose"
     StartupUri="MainWindow.xaml">
 
-    <Application.Resources />
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--  资源字典  -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Assets/Styles/Global.xaml" />
+
+                <ResourceDictionary Source="/Assets/Styles/TextBlock.xaml" />
+                <ResourceDictionary Source="/Assets/Styles/Image.xaml" />
+                <ResourceDictionary Source="/Assets/Styles/ScrollViewer.xaml" />
+
+                <ResourceDictionary Source="/Assets/Styles/Button.xaml" />
+                <ResourceDictionary Source="/Assets/Styles/TextBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
 
 </Application>

@@ -63,7 +63,7 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -87,6 +87,30 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Utils\CoreUtil.cs" />
+    <Page Include="Assets\Styles\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Styles\Global.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Styles\Image.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Styles\ScrollViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Styles\TextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Styles\TextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -121,6 +145,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="AppData\Config\Config.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Resource Include="Assets\Fonts\SourceHanSansCN-Normal.otf" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -131,31 +159,31 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AppData\Backup\bf1.exe">
+    <None Include="AppData\Backup\bf1.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Origin\OriginDebug.exe">
+    </None>
+    <None Include="AppData\Origin\config.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Patch\bf1_without_origin.exe">
+    </None>
+    <None Include="AppData\Origin\OriginDebug.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Patch\dinput8.dll">
+    </None>
+    <None Include="AppData\Patch\bf1_without_origin.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Patch\dinput8_org.dll">
+    </None>
+    <None Include="AppData\Patch\dinput8.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Patch\originemu.dll">
+    </None>
+    <None Include="AppData\Patch\dinput8_org.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Tools\EA_Game_RegFix.exe">
+    </None>
+    <None Include="AppData\Patch\originemu.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="favicon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AppData\Config\" />
+    </None>
+    <None Include="AppData\Tools\EA_Game_RegFix.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Resource Include="Assets\favicon.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
@@ -168,6 +196,32 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Arrow.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Background\MP_Beachhead_BGLoop-4f04c02e.jpg" />
+    <Resource Include="Assets\Images\Background\MP_Harbor_BGLoop-70b9c5f4.jpg" />
+    <Resource Include="Assets\Images\Background\MP_Naval_BGLoop-dd6e9a89.jpg" />
+    <Resource Include="Assets\Images\Background\MP_Ridge_BGLoop-22333a03.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="使用说明.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\logo_pc-795c9952.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\origin_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\icons8-folder-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\icons8-hdd-48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

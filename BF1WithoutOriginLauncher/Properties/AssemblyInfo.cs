@@ -7,8 +7,8 @@ using System.Windows;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("BF1WithoutOriginLauncher")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Battlefield™ 1 免Origin启动器")]
+[assembly: AssemblyDescription("https://github.com/CrazyZhang666/BF1WithoutOriginLauncher")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("BF1WithoutOriginLauncher")]
