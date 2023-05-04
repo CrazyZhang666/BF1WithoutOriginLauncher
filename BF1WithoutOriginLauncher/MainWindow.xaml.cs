@@ -189,7 +189,7 @@ namespace BF1WithoutOriginLauncher
                 File.Copy(CoreUtil.Patch_dinput8_org_dll, CoreUtil.Game_dinput8_org_dll, true);
                 File.Copy(CoreUtil.Patch_originemu_dll, CoreUtil.Game_originemu_dll, true);
 
-                MsgBoxHelper.Information("使用战地1免Origin补丁成功");
+                MsgBoxHelper.Information("恭喜，使用战地1免Origin补丁成功");
             }
             catch (Exception ex)
             {
@@ -223,7 +223,7 @@ namespace BF1WithoutOriginLauncher
 
                 File.Copy(CoreUtil.Backup_bf1_exe, CoreUtil.Game_bf1_exe, true);
 
-                MsgBoxHelper.Information("恢复战地1原版文件成功");
+                MsgBoxHelper.Information("恭喜，恢复战地1原版文件成功");
             }
             catch (Exception ex)
             {
@@ -279,13 +279,13 @@ namespace BF1WithoutOriginLauncher
 
             if (!ProcessHelper.IsAppRun("OriginDebug"))
             {
-                MsgBoxHelper.Warning("请先启动Origin模拟器");
+                MsgBoxHelper.Warning("请先启动Origin模拟器，然后再启动战地1游戏");
                 return;
             }
 
             if (!CoreUtil.IsExistsBF1OriginEmuPath())
             {
-                MsgBoxHelper.Warning("缺少战地1免Origin补丁");
+                MsgBoxHelper.Warning("缺少战地1免Origin补丁，请先使用战地1免Origin补丁");
                 return;
             }
 
