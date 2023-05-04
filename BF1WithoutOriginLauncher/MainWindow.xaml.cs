@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Navigation;
 using System.ComponentModel;
@@ -27,6 +28,8 @@ namespace BF1WithoutOriginLauncher
         private void Window_Main_Loaded(object sender, RoutedEventArgs e)
         {
             TextBox_BF1GameDir.Text = IniHelper.ReadValue("Config", "BF1GameDir");
+
+            CoreUtil.BF1_Dir = TextBox_BF1GameDir.Text.Trim();
         }
 
         /// <summary>
@@ -69,6 +72,8 @@ namespace BF1WithoutOriginLauncher
             if (fileDialog.ShowDialog() == true)
             {
                 TextBox_BF1GameDir.Text = Path.GetDirectoryName(fileDialog.FileName);
+
+                CoreUtil.BF1_Dir = TextBox_BF1GameDir.Text.Trim();
             }
         }
 
@@ -79,15 +84,10 @@ namespace BF1WithoutOriginLauncher
         /// <param name="e"></param>
         private void Button_OpenBF1GameDir_Click(object sender, RoutedEventArgs e)
         {
-            var bf1Dir = TextBox_BF1GameDir.Text.Trim();
-
-            if (!Directory.Exists(bf1Dir))
-            {
-                MsgBoxHelper.Warning("战地1目录不存在");
+            if (!CoreUtil.IsExistsBF1GameDir())
                 return;
-            }
 
-            ProcessHelper.OpenLink(bf1Dir);
+            ProcessHelper.OpenLink(CoreUtil.BF1_Dir);
         }
 
         /// <summary>
@@ -97,11 +97,8 @@ namespace BF1WithoutOriginLauncher
         /// <param name="e"></param>
         private void Button_EditOriginEmuConfig_Click(object sender, RoutedEventArgs e)
         {
-            if (!File.Exists(CoreUtil.Origin_config_ini))
-            {
-                MsgBoxHelper.Warning("Origin模拟器配置文件不存在");
+            if (!CoreUtil.IsExistsBF1GameDir())
                 return;
-            }
 
             ProcessHelper.OpenProcess(CoreUtil.Origin_config_ini, "notepad");
         }
@@ -113,20 +110,22 @@ namespace BF1WithoutOriginLauncher
         /// <param name="e"></param>
         private void Button_UseWithoutOriginPath_Click(object sender, RoutedEventArgs e)
         {
-            var bf1Dir = TextBox_BF1GameDir.Text.Trim();
-
-            if (!Directory.Exists(bf1Dir))
-            {
-                MsgBoxHelper.Warning("战地1目录不存在");
+            if (!CoreUtil.IsExistsBF1GameDir())
                 return;
+
+            try
+            {
+                File.Copy(CoreUtil.Patch_bf1_without_origin_exe, CoreUtil.Game_bf1_exe, true);
+                File.Copy(CoreUtil.Patch_dinput8_dll, CoreUtil.Game_dinput8_dll, true);
+                File.Copy(CoreUtil.Patch_dinput8_org_dll, CoreUtil.Game_dinput8_org_dll, true);
+                File.Copy(CoreUtil.Patch_originemu_dll, CoreUtil.Game_originemu_dll, true);
+
+                MsgBoxHelper.Information("使用战地1免Origin补丁成功");
             }
-
-            File.Copy(CoreUtil.Patch_bf1_without_origin_exe, Path.Combine(bf1Dir, "bf1.exe"), true);
-            File.Copy(CoreUtil.Patch_dinput8_dll, Path.Combine(bf1Dir, "dinput8.dll"), true);
-            File.Copy(CoreUtil.Patch_dinput8_org_dll, Path.Combine(bf1Dir, "dinput8_org.dll"), true);
-            File.Copy(CoreUtil.Patch_originemu_dll, Path.Combine(bf1Dir, "originemu.dll"), true);
-
-            MsgBoxHelper.Information("使用战地1免Origin补丁成功");
+            catch (Exception ex)
+            {
+                MsgBoxHelper.Exception(ex);
+            }
         }
 
         /// <summary>
@@ -136,22 +135,31 @@ namespace BF1WithoutOriginLauncher
         /// <param name="e"></param>
         private void Button_UseBackupBF1MainApp_Click(object sender, RoutedEventArgs e)
         {
-            var bf1Dir = TextBox_BF1GameDir.Text.Trim();
-
-            if (!Directory.Exists(bf1Dir))
-            {
-                MsgBoxHelper.Warning("战地1目录不存在");
+            if (!CoreUtil.IsExistsBF1GameDir())
                 return;
+
+            try
+            {
+                if (File.Exists(CoreUtil.Game_bf1_without_origin_exe))
+                    File.Delete(CoreUtil.Game_bf1_without_origin_exe);
+
+                if (File.Exists(CoreUtil.Game_dinput8_dll))
+                    File.Delete(CoreUtil.Game_dinput8_dll);
+
+                if (File.Exists(CoreUtil.Game_dinput8_org_dll))
+                    File.Delete(CoreUtil.Game_dinput8_org_dll);
+
+                if (File.Exists(CoreUtil.Game_originemu_dll))
+                    File.Delete(CoreUtil.Game_originemu_dll);
+
+                File.Copy(CoreUtil.Backup_bf1_exe, CoreUtil.Game_bf1_exe, true);
+
+                MsgBoxHelper.Information("恢复战地1原版文件成功");
             }
-
-            File.Delete(Path.Combine(bf1Dir, "bf1_without_origin.exe"));
-            File.Delete(Path.Combine(bf1Dir, "dinput8.dll"));
-            File.Delete(Path.Combine(bf1Dir, "dinput8_org.dll"));
-            File.Delete(Path.Combine(bf1Dir, "originemu.dll"));
-
-            File.Copy(".\\AppData\\Backup\\bf1.exe", Path.Combine(bf1Dir, "bf1.exe"), true);
-
-            MsgBoxHelper.Information("恢复战地1原版文件成功");
+            catch (Exception ex)
+            {
+                MsgBoxHelper.Exception(ex);
+            }
         }
 
         /// <summary>
@@ -164,19 +172,19 @@ namespace BF1WithoutOriginLauncher
             if (MessageBox.Show("你确定要运行战地1注册表恢复工具吗？",
                 "运行提示", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
             {
-                var bf1Dir = TextBox_BF1GameDir.Text.Trim();
-
-                if (!Directory.Exists(bf1Dir))
-                {
-                    MsgBoxHelper.Warning("战地1目录不存在");
+                if (!CoreUtil.IsExistsBF1GameDir())
                     return;
+
+                try
+                {
+                    File.Copy(CoreUtil.Tools_EA_Game_RegFix_exe, CoreUtil.Game_EA_Game_RegFix_exe, true);
+
+                    ProcessHelper.OpenProcess(CoreUtil.Game_EA_Game_RegFix_exe);
                 }
-
-                var regFixPath = Path.Combine(bf1Dir, CoreUtil.Tools_EA_Game_RegFix_exe);
-
-                File.Copy(CoreUtil.Tools_EA_Game_RegFix_exe, regFixPath, true);
-
-                ProcessHelper.OpenProcess(regFixPath);
+                catch (Exception ex)
+                {
+                    MsgBoxHelper.Exception(ex);
+                }
             }
         }
 
@@ -197,13 +205,8 @@ namespace BF1WithoutOriginLauncher
         /// <param name="e"></param>
         private void Button_RunBF1Game_Click(object sender, RoutedEventArgs e)
         {
-            var bf1Dir = TextBox_BF1GameDir.Text.Trim();
-
-            if (!Directory.Exists(bf1Dir))
-            {
-                MsgBoxHelper.Warning("战地1目录不存在");
+            if (!CoreUtil.IsExistsBF1GameDir())
                 return;
-            }
 
             if (!ProcessHelper.IsAppRun("OriginDebug"))
             {
@@ -211,7 +214,7 @@ namespace BF1WithoutOriginLauncher
                 return;
             }
 
-            if (!CheckBF1PathIsSucess())
+            if (!CoreUtil.IsExistsBF1OriginEmuPath())
             {
                 MsgBoxHelper.Warning("缺少战地1免Origin补丁");
                 return;
@@ -219,32 +222,7 @@ namespace BF1WithoutOriginLauncher
 
             var args = TextBox_RunArgs.Text.Trim();
 
-            ProcessHelper.OpenProcess(Path.Combine(bf1Dir, "bf1.exe"), args);
-        }
-
-        /// <summary>
-        /// 检测战地1免Origin补丁是否成功
-        /// </summary>
-        /// <returns></returns>
-        private bool CheckBF1PathIsSucess()
-        {
-            var bf1Dir = TextBox_BF1GameDir.Text.Trim();
-            if (!Directory.Exists(bf1Dir))
-                return false;
-
-            CoreUtil.BF1_Dir = bf1Dir;
-
-            if (!File.Exists(CoreUtil.Game_bf1_exe))
-                return false;
-
-            if (!File.Exists(CoreUtil.Game_dinput8_dll))
-                return false;
-            if (!File.Exists(CoreUtil.Game_dinput8_org_dll))
-                return false;
-            if (!File.Exists(CoreUtil.Game_originemu_dll))
-                return false;
-
-            return true;
+            ProcessHelper.OpenProcess(CoreUtil.Game_bf1_exe, args);
         }
     }
 }

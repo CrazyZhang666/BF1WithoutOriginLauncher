@@ -112,7 +112,7 @@
                     Content="第二步 启动战地1游戏" />
             </UniformGrid>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <TextBlock Margin="5" Text="感谢 Misaka_Mikoto_01 大佬的研究成功" />
+                <TextBlock Margin="5" Text="感谢 Misaka_Mikoto_01 大佬的研究成果" />
                 <TextBlock Margin="5">
                     <Hyperlink NavigateUri="https://github.com/CrazyZhang666/BF1WithoutOriginLauncher" RequestNavigate="Hyperlink_RequestNavigate">GitHub</Hyperlink>
                 </TextBlock>
