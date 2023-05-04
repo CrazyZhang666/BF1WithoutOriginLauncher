@@ -1,11 +1,13 @@
 ﻿using System.Text;
 using System.Runtime.InteropServices;
 
+using BF1WithoutOriginLauncher.Utils;
+
 namespace BF1WithoutOriginLauncher.Helper
 {
     public static class IniHelper
     {
-        private const string IniPath = ".\\AppData\\Config\\Config.ini";
+        private const string IniPath = CoreUtil.Config_Config_ini;
 
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);

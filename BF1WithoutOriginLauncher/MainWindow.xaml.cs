@@ -28,6 +28,7 @@ namespace BF1WithoutOriginLauncher
         private void Window_Main_Loaded(object sender, RoutedEventArgs e)
         {
             TextBox_BF1GameDir.Text = IniHelper.ReadValue("Config", "BF1GameDir");
+            TextBox_BF1RunArgs.Text = IniHelper.ReadValue("Config", "BF1RunArgs");
 
             CoreUtil.BF1_Dir = TextBox_BF1GameDir.Text.Trim();
         }
@@ -40,6 +41,7 @@ namespace BF1WithoutOriginLauncher
         private void Window_Main_Closing(object sender, CancelEventArgs e)
         {
             IniHelper.WriteValue("Config", "BF1GameDir", TextBox_BF1GameDir.Text.Trim());
+            IniHelper.WriteValue("Config", "BF1RunArgs", TextBox_BF1RunArgs.Text.Trim());
         }
 
         /// <summary>
@@ -220,7 +222,7 @@ namespace BF1WithoutOriginLauncher
                 return;
             }
 
-            var args = TextBox_RunArgs.Text.Trim();
+            var args = TextBox_BF1RunArgs.Text.Trim();
 
             ProcessHelper.OpenProcess(CoreUtil.Game_bf1_exe, args);
         }

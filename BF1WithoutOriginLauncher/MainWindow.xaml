@@ -7,7 +7,7 @@
     x:Name="Window_Main"
     Title="战地1免Origin版启动器"
     Width="700"
-    Height="400"
+    Height="450"
     Closing="Window_Main_Closing"
     Loaded="Window_Main_Loaded"
     ResizeMode="CanMinimize"
@@ -37,7 +37,10 @@
                 <TextBox
                     x:Name="TextBox_BF1GameDir"
                     Margin="5"
-                    Padding="7" />
+                    Padding="7"
+                    Cursor="Arrow"
+                    IsReadOnly="True"
+                    Text="D:\Origin Games\Battlefield 1" />
             </DockPanel>
             <!--  ////////////////  -->
             <TextBlock
@@ -87,9 +90,13 @@
                 FontWeight="Bold"
                 Text="战地1启动参数" />
             <TextBox
-                x:Name="TextBox_RunArgs"
+                x:Name="TextBox_BF1RunArgs"
                 Margin="5"
-                Padding="7" />
+                Padding="7"
+                HorizontalScrollBarVisibility="Disabled"
+                Text="-PerfOverlay.DrawFps 1"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
         </DockPanel>
         <!--  ////////////////  -->
         <StackPanel Grid.Row="2">
@@ -113,7 +120,10 @@
             </UniformGrid>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <TextBlock Margin="5" Text="感谢 Misaka_Mikoto_01 大佬的研究成果" />
-                <TextBlock Margin="5">
+                <TextBlock Margin="5" ToolTip="https://go.microsoft.com/fwlink/p/?LinkId=2124703">
+                    <Hyperlink NavigateUri="https://go.microsoft.com/fwlink/p/?LinkId=2124703" RequestNavigate="Hyperlink_RequestNavigate">WebView2运行库</Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="5" ToolTip="https://github.com/CrazyZhang666/BF1WithoutOriginLauncher">
                     <Hyperlink NavigateUri="https://github.com/CrazyZhang666/BF1WithoutOriginLauncher" RequestNavigate="Hyperlink_RequestNavigate">GitHub</Hyperlink>
                 </TextBlock>
             </StackPanel>
