@@ -8,4 +8,4 @@ https://www.123pan.com/s/QEorVv-wILv3.html
 
 ## 预览
 
-![](https://cdnjson.com/images/2023/05/06/Snipaste_2023-05-06_07-56-07.png)
+![Snipaste_2023-05-06_07-56-07](https://user-images.githubusercontent.com/28080853/236586788-83d8ca5b-6361-4c36-a615-96c70a1b9a16.png)
